@@ -8,18 +8,22 @@ import { useAuth } from "@/context/AuthContext";
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signup } = useAuth(); // from context
+  const { signup } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     try {
       await signup(email, password);
-      navigate("/");  // Redirect to the homepage after successful signup
+      navigate("/");
     } catch (err) {
       setError(err.message || "Signup failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,8 +49,8 @@ const Signup = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button type="submit" className="w-full">
-              Signup
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Signing up..." : "Signup"}
             </Button>
             {error && (
               <p className="text-sm text-red-500 text-center">{error}</p>
