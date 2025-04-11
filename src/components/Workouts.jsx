@@ -1,5 +1,7 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const workoutData = [
   { group: "Chest", levels: ["Beginner", "Intermediate", "Advanced"] },
@@ -14,11 +16,34 @@ const workoutData = [
 ];
 
 const Workouts = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
+
+  if (!user) {
+    return (
+      <div className="h-[60vh] flex flex-col items-center justify-center text-center px-4 space-y-4">
+        <div>
+          <h2 className="text-2xl font-semibold mb-2">
+            Please log in to view workouts
+          </h2>
+          <p className="text-gray-600 mb-4">
+            Login to access personalized workout plans.
+          </p>
+        </div>
+        <div className="flex gap-4">
+          <Button variant="outline" asChild>
+            <Link to="/signup">Sign Up</Link>
+          </Button>
+          <Button asChild>
+            <Link to="/login">Log In</Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 space-y-10">
-     
       {workoutData.map(({ group, levels }) => (
         <div key={group} className="space-y-4">
           <h2 className="text-xl font-semibold">{group}</h2>
