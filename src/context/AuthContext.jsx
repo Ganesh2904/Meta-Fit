@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { account } from "../appwriteConfig";
+import { account, databases, DATABASE_ID, COLLECTION_ID } from "../appwriteConfig";
 
 const AuthContext = createContext();
 
@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const user = await account.get();
       setUser(user);
-    } catch (err) {
+    } catch {
       setUser(null);
     }
   };
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
   const signup = async (email, password) => {
     try {
       await account.create("unique()", email, password);
-      await login(email, password); // auto login after signup
+      await login(email, password); // Auto-login after signup
     } catch (err) {
       throw new Error(err.message || "Signup failed");
     }
@@ -49,7 +49,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signup, login, logout, getUser }}>
+    <AuthContext.Provider
+      value={{ user, signup, login, logout, getUser, databases, DATABASE_ID, COLLECTION_ID }}
+    >
       {children}
     </AuthContext.Provider>
   );

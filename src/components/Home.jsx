@@ -23,7 +23,7 @@ const Home = () => {
     <main className="max-w-7xl mx-auto px-4 py-10">
       {/* Hero Section */}
       <section className="text-center space-y-6">
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">Welcome to MetaFit</h1>
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl bg-linear-to-b from-black via-neutral-900 to-neutral-300 bg-clip-text text-transparent">Welcome to MetaFit</h1>
         <p className="text-lg text-muted-foreground">
         Your personalized fitness journey. Track workouts, progress, and achieve your goals.
         </p>
