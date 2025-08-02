@@ -2,6 +2,7 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import NotLogedIn from "./NotLogedIn";
 
 const workoutData = [
   { group: "Chest", levels: ["Beginner", "Intermediate", "Advanced"] },
@@ -20,26 +21,7 @@ const Workouts = () => {
   const navigate = useNavigate();
 
   if (!user) {
-    return (
-      <div className="h-[60vh] flex flex-col items-center justify-center text-center px-4 space-y-4">
-        <div>
-          <h2 className="text-2xl font-semibold mb-2">
-            Please log in to view workouts
-          </h2>
-          <p className="text-gray-600 mb-4">
-            Login to access personalized workout plans.
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <Button variant="outline" asChild>
-            <Link to="/signup">Sign Up</Link>
-          </Button>
-          <Button asChild>
-            <Link to="/login">Log In</Link>
-          </Button>
-        </div>
-      </div>
-    );
+    return <NotLogedIn />;
   }
 
   return (

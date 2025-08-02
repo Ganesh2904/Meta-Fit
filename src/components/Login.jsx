@@ -28,8 +28,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex py-20 justify-center">
-      <Card className="w-[350px] h-min">
+    <div className="flex pt-16 justify-center mx-4">
+      <Card className="w-[350px] h-min bg-gradient-to-br from-card to-card/30">
         <CardHeader>
           <CardTitle>Login</CardTitle>
         </CardHeader>
@@ -41,6 +41,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="bg-gradient-to-r from-background to-background/60"
             />
             <Input
               type="password"
@@ -48,14 +49,19 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              className="bg-gradient-to-r from-background to-background/60"
             />
             {error && <p className="text-red-500 text-sm">{error}</p>}
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-muted-foreground via-foreground to-muted-foreground"
+              disabled={loading}
+            >
               {loading ? "Logging in..." : "Login"}
             </Button>
-            <p className="text-sm text-center">
+            <p className="text-sm text-center text-muted-foreground">
               Don't have an account?{" "}
-              <Link to="/signup" className="underline">
+              <Link to="/signup" className="underline text-foreground">
                 Signup
               </Link>
             </p>

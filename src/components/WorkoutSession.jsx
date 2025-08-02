@@ -3,12 +3,15 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import exerciseData from "../data/exerciseData";
+import { useAuth } from "@/context/AuthContext";
+import NotLogedIn from "./NotLogedIn";
 
 const WorkoutSession = () => {
   const { group, level } = useParams();
   const navigate = useNavigate();
   const [setIndex, setSetIndex] = useState(1);
   const [exerciseIndex, setExerciseIndex] = useState(0);
+  const { user } = useAuth();
 
   const getSetsAndReps = (level) => {
     switch (level.toLowerCase()) {
@@ -45,15 +48,6 @@ const WorkoutSession = () => {
 
   const exercises = getExercises();
 
-  // Guard: if no exercises available, display a fallback message.
-  if (!exercises || exercises.length === 0) {
-    return (
-      <div className="flex justify-center p-10">
-        <p>No exercises available for the "{group}" group.</p>
-      </div>
-    );
-  }
-
   const currentExercise = exercises[exerciseIndex];
 
   const totalExercises = exercises.length;
@@ -66,13 +60,13 @@ const WorkoutSession = () => {
       setExerciseIndex((prev) => prev + 1);
       return;
     }
-  
+
     if (!isLastSet) {
       setExerciseIndex(0);
       setSetIndex((prev) => prev + 1);
       return;
     }
-  
+
     // If last set and last exercise, navigate to progress with workout data
     navigate("/progress", {
       state: {
@@ -87,7 +81,6 @@ const WorkoutSession = () => {
       },
     });
   };
-  
 
   const handlePrevious = () => {
     if (!isFirstExercise) {
@@ -100,6 +93,17 @@ const WorkoutSession = () => {
 
   const isFirstStep = setIndex === 1 && exerciseIndex === 0;
   const isLastStep = isLastSet && isLastExercise;
+
+  if (!user) return <NotLogedIn />;
+
+  // Guard: if no exercises available, display a fallback message.
+  if (!exercises || exercises.length === 0) {
+    return (
+      <div className="flex justify-center p-10">
+        <p>No exercises available for the "{group}" group.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center p-4 md:p-10">

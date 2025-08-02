@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { account, databases, DATABASE_ID, COLLECTION_ID } from "../appwriteConfig";
+import { ID } from "appwrite";
 
 const AuthContext = createContext();
 
@@ -19,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (email, password) => {
     try {
-      await account.create("unique()", email, password);
+      await account.create(ID.unique(), email, password);
       await login(email, password); // Auto-login after signup
     } catch (err) {
       throw new Error(err.message || "Signup failed");
