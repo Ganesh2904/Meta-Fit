@@ -11,6 +11,7 @@ import {
   CardContent,
 } from "./ui/card";
 import { Loader } from "./ui/loader";
+import { Flame } from "lucide-react";
 
 const Progress = () => {
   const location = useLocation();
@@ -82,6 +83,33 @@ const Progress = () => {
     fetchHistory();
   }, [fetchHistory]);
 
+  function levelToIcon(level) {
+    if (level == "Beginner") {
+      return (
+        <div>
+          <Flame className="inline w-4" fill="var(--foreground)" />
+          <Flame className="inline w-4 -ml-0.5" />
+          <Flame className="inline w-4 -ml-0.5" />
+        </div>
+      );
+    } else if (level == "Intermediate") {
+      return (
+        <div>
+          <Flame className="inline w-4" fill="var(--foreground)" />
+          <Flame className="inline w-4 -ml-0.5" fill="var(--foreground)" />
+          <Flame className="inline w-4 -ml-0.5" />
+        </div>
+      );
+    }
+    return (
+      <div>
+        <Flame className="inline w-4" fill="var(--foreground)" />
+        <Flame className="inline w-4 -ml-0.5" fill="var(--foreground)" />
+        <Flame className="inline w-4 -ml-0.5" fill="var(--foreground)" />
+      </div>
+    );
+  }
+
   if (!user) return <NotLogedIn />;
 
   if (loading) return <Loader text="loading workout history..." />;
@@ -100,8 +128,12 @@ const Progress = () => {
             className="bg-gradient-to-br from-secondary/10 to-secondary/60 dark:from-card/30 dark:to-card"
           >
             <CardHeader>
-              <CardTitle className="text-xl">
-                {w.group} <br /> {w.level}
+              <CardTitle className="flex flex-col">
+                <span className="text-xl">{w.group}</span>
+                <span className="flex items-center gap-1 -my-0.5 text-sm">
+                  {w.level}
+                  {levelToIcon(w.level)}
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent className="flex gap-6">
